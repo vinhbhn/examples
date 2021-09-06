@@ -2,9 +2,7 @@
 
 **move to documentation when done**
 
-In the previous three sections, you got a taste of using Aqua with browsers for messaging  and how to 
-
-In this section, we discuss how to compose an application from multiple distributed services using Aqua. In Fluence, we don't use JSON-RPC or REST endpoints to address and execute the service, we use [Aqua](https://github.com/fluencelabs/aqua) and the underlying Fluence peer-to-peer stack to find and execute services. Specifically, Aqua is a purpose-built distributed systems and peer-to-peer programming language that resolves (Peer Id, Service Id) tuples to facilitate service execution on the host node without developers having to worry about transport or network routing.
+In the previous three sections, you got a bit of a taste of using Aqua. In this section, we discuss how to compose an application from multiple distributed services using Aqua. In Fluence, we don't use JSON-RPC or REST endpoints to address and execute the service, we use [Aqua](https://github.com/fluencelabs/aqua) and the underlying Fluence peer-to-peer stack to find and execute services. Specifically, Aqua is a purpose-built distributed systems and peer-to-peer programming language that resolves (Peer Id, Service Id) tuples to facilitate service execution on the host node without developers having to worry about transport or network routing.
 
 ## Composition With Aqua
 
