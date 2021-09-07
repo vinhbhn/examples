@@ -35,8 +35,8 @@ fn add_one(input: u64) -> u64 {
 
 and we deploy that module as a service to three hosts: Peer 1, Peer 2, and Peer 3. Once we got the services deployed to their respective hosts, we can use Aqua to compose an admittedly simple application by specifying execution the workflow of each service where the (Peer Id, Service Id) facilitates the routing and execution. Also, recall that in the Fluence peer-to-peer programming model the client need not, and for the most part should not, be involved in managing intermediate results. Instead, results can be "forward chained" to the next service as specified in the Aqua workflow.
 
-Using our "add 1" service and starting with an input param value of one, utilizing all three services, we expect a final result of four given **seq**uential service execution: 
- 
+Using our "add_one" service and starting with an input param value of one, utilizing all three services, we expect a final result of four given **seq**uential service execution:
+
 ```mermaid
     sequenceDiagram
     title: Figure 2: Service Execution
@@ -64,12 +64,12 @@ The underlying Aqua script may look something like this:
 service AddOne:
     add_one: u64 -> u64
     
--- convenience struc for (Peer Id, Service Id) tuples
+-- convenience struct for (Peer Id, Service Id) tuples
 data NodeServiceTuple:
     node_id: string
     service_id: string
 
--- our app as defined by the worflow expressed in Aqua
+-- our app as defined by the workflow expressed in Aqua
 func add_one_three_times(value: u64, ns_tuples: []NodeServiceTuple) -> u64:
     res: *u64
     on ns_tuples!0.node_id:
