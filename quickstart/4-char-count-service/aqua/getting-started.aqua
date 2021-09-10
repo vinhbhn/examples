@@ -1,0 +1,57 @@
+import "@fluencelabs/aqua-lib/builtin.aqua"
+
+const helloWorldNodePeerId ?= "12D3KooWFEwNWcHqi9rtsmDhsYcDbRUCDXH84RC4FW6UfsFWaoHi"
+const helloWorldServiceId ?= "1e740ce4-81f6-4dd4-9bed-8d86e9c2fa50"
+
+data HelloWorld:
+  msg: string
+  reply: string
+
+-- The service runs on a Fluence node
+service HelloWorld:
+    hello(from: PeerId) -> HelloWorld
+
+-- The service runs inside browser
+service HelloPeer("HelloPeer"):
+    hello(message: string) -> string
+
+func sayHello(targetPeerId: PeerId, targetRelayPeerId: PeerId) -> string:
+    -- execute computation on a Peer in the network
+    on helloWorldNodePeerId:
+        HelloWorld helloWorldServiceId
+        comp <- HelloWorld.hello(%init_peer_id%)
+
+    -- send the result to target browser in the background
+    co on targetPeerId via targetRelayPeerId:
+        res <- HelloPeer.hello(%init_peer_id%)
+
+    -- send the result to the initiator
+    <- comp.reply
+
+const charCountNodePeerId ?= "12D3KooWFtf3rfCDAfWwt6oLZYZbDfn9Vn7bv7g6QjjQxUUEFVBt"
+const charCountServiceId ?= "a9a2bdcd-8463-4176-91cf-19344b93461c"
+
+data CharCount:
+  msg: string
+  count: string
+
+-- The service runs on a Fluence node
+service CharCount:
+    character_count(message: string) -> CharCount
+
+-- The service runs inside browser
+service CharCountPeer("CharCountPeer"):
+    character_count(message: string) -> string
+
+func charCount(targetPeerId: PeerId, targetRelayPeerId: PeerId, msg: string) -> string:
+    -- execute computation on a Peer in the network
+    on charCountNodePeerId:
+        CharCount charCountServiceId
+        comp <- CharCount.character_count(msg)
+
+    -- send the result to target browser in the background
+    co on targetPeerId via targetRelayPeerId:
+        res <- CharCountPeer.character_count(comp.count)
+
+    -- send the result to the initiator
+    <- comp.count
